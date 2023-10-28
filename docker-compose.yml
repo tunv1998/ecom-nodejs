@@ -1,0 +1,23 @@
+services:
+  admin:
+    image: node:latest
+    environment:
+      - POSTGRES_USER=ecom
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=ecom
+    ports:
+      - 127.0.0.1:4000:4000
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=ecom
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=ecom
+    volumes:
+      - postgres-ecom:/var/lib/postgresql/data
+volumes:
+  postgres-ecom:
