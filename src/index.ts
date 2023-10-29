@@ -1,5 +1,7 @@
 import express from "express";
 
+import adminAuthRoute from "./modules/admin/auth/routes";
+
 const app = express();
 const port = 4000;
 
@@ -11,6 +13,8 @@ app.get("/", (req, res) => {
     message: "Hello World!!",
   });
 });
+
+app.use("/api/v1/admin/auth", adminAuthRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
