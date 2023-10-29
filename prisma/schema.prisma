@@ -14,3 +14,22 @@ model Init {
   id      Int     @id @default(autoincrement())
   message String?
 }
+
+model AdminUser {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  name         String
+  AdminProfile AdminProfile?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?
+}
+
+model AdminProfile {
+  id        String    @id @default(uuid())
+  bio       String
+  user      AdminUser @relation(fields: [userId], references: [id])
+  userId    String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+}
