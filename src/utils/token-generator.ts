@@ -1,5 +1,8 @@
 import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
-import { LoginWithEmailAndPasswordSchema } from "../schema/loginWithEmailAndPassword";
+const PRIVATE_KEY = "PRIVATE_KEY";
+const PUBLIC_KEY = "PUBLIC_KEY";
+const FIFTEEN_DAYS_IN_MS = 15 * 24 * 60 * 60 * 1000;
+const SEVEN_DAYS_IN_MS = 15 * 24 * 60 * 60 * 1000;
 
 type JWTPayload = {
   email: string;
@@ -35,6 +38,16 @@ class TokenGenerator {
     });
     return jwt.sign(payload, this.secretOrPrivateKey, jwtSignOptions);
   }
-}
 
-export default TokenGenerator;
+  verify(token: string, refreshOptions?: VerifyOptions) {
+    const payload = jwt.verify(token, this.secretOrPublicKey, refreshOptions);
+  }
+}
+const tokenGenerator = new TokenGenerator(PRIVATE_KEY, PUBLIC_KEY, {
+  algorithm: "HS256",
+  keyid: "1",
+  noTimestamp: false,
+  expiresIn: "7 days",
+});
+
+export default tokenGenerator;

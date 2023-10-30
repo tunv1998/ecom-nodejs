@@ -6,6 +6,7 @@ import { adminAuthLogin } from "./controllers/login.controller";
 import { loginWithEmailAndPasswordSchema } from "./schema/loginWithEmailAndPassword";
 import { signUpController } from "./controllers/signup.controller";
 import { signupSchema } from "./schema/signup.schema";
+import { verifyAccessToken } from "@/middleware/verify-access-token";
 
 const adminAuthRoute = express.Router();
 
@@ -17,7 +18,7 @@ adminAuthRoute.post(
 
 adminAuthRoute.post(
   "/signup",
-  validateDataMiddleware(signupSchema),
+  [verifyAccessToken, validateDataMiddleware(signupSchema)],
   signUpController
 );
 
